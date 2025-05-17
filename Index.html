@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>નવ તત્ત્વ માર્ગદર્શિકા</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better aesthetics */
+        body {
+            font-family: 'Inter', 'Arial', sans-serif; /* Added Inter as primary font */
+            line-height: 1.7; /* Slightly increased line-height for readability */
+            color: #374151; /* Tailwind gray-700 for body text */
+            background-color: #f3f4f6; /* Tailwind gray-100 for background */
+            margin: 0;
+            padding: 20px; /* Default padding for larger screens */
+            display: flex;
+            flex-direction: column; /* Align items vertically */
+            align-items: center; /* Center content horizontally */
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px; /* Increased max-width for better layout on larger screens */
+            width: 100%; /* Ensure it takes full width on smaller screens */
+            padding: 30px 40px; /* Default padding for container */
+            background-color: #ffffff; /* White background for the container */
+            border-radius: 12px; /* More rounded corners */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 6px 10px rgba(0, 0, 0, 0.05); /* Softer, more layered shadow */
+            text-align: left; /* Align text to the left for better readability */
+        }
+        h1 {
+            color: #1e3a8a; /* Tailwind blue-800 - A deep, trustworthy blue */
+            margin-bottom: 25px;
+            font-size: 2.75em; /* Default font size for h1 */
+            font-weight: 700; /* Bolder heading */
+            text-align: center; /* Center the main heading */
+            letter-spacing: -0.5px; /* Adjusted letter spacing */
+        }
+        h2 {
+            color: #1d4ed8; /* Tailwind blue-700 - A vibrant blue for subheadings */
+            margin-top: 35px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #d1d5db; /* Tailwind gray-300 for border */
+            padding-bottom: 12px;
+            font-size: 1.75em; /* Default font size for h2 */
+            font-weight: 600; /* Bolder subheadings */
+        }
+        p {
+            margin-bottom: 18px;
+            font-size: 1.1em; /* Default font size for paragraphs */
+            color: #4b5563; /* Tailwind gray-600 for paragraphs */
+        }
+        ul {
+            list-style-type: none; /* Removed default list style */
+            padding: 0;
+            margin-bottom: 25px;
+        }
+        li {
+            margin-bottom: 15px; /* Increased spacing between list items */
+            padding: 12px 18px; /* Default padding for list items */
+            background-color: #f9fafb; /* Tailwind gray-50 for list item background */
+            border-radius: 8px; /* Rounded corners for list items */
+            border: 1px solid #e5e7eb; /* Tailwind gray-200 border */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        li:hover {
+            transform: translateY(-2px); /* Slight lift on hover */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Subtle shadow on hover */
+        }
+        a {
+            color: #059669; /* Tailwind emerald-600 - A vibrant green for links */
+            text-decoration: none;
+            font-weight: 600; /* Bolder links */
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #047857; /* Tailwind emerald-700 - Darker green on hover */
+            text-decoration: underline;
+        }
+        .footer {
+            margin-top: 40px;
+            font-size: 0.95em;
+            color: #6b7280; /* Tailwind gray-500 for footer text */
+            text-align: center; /* Center the footer text */
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb; /* Tailwind gray-200 border */
+        }
+        .language-tag {
+            font-size: 0.85em;
+            font-weight: 500;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-right: 10px;
+            display: inline-block; /* To allow padding and margins */
+        }
+        .tag-en { background-color: #dbeafe; color: #1e40af; } /* Tailwind blue-100 bg, blue-700 text */
+        .tag-gu { background-color: #fee2e2; color: #b91c1c; } /* Tailwind red-100 bg, red-700 text */
+        .tag-hi { background-color: #d1fae5; color: #065f46; } /* Tailwind emerald-100 bg, emerald-700 text */
+
+        /* Responsive adjustments for tablets and smaller desktops */
+        @media (max-width: 768px) {
+            body { padding: 15px; } /* Adjusted body padding */
+            .container { padding: 20px 25px; } /* Adjusted container padding */
+            h1 { font-size: 2em; } /* Adjusted h1 font size */
+            h2 { font-size: 1.4em; } /* Adjusted h2 font size */
+            p { font-size: 1em; } /* Adjusted p font size */
+            li { padding: 10px 15px; } /* Adjusted li padding */
+        }
+
+        /* Responsive adjustments for mobile phones */
+        @media (max-width: 480px) {
+            body { padding: 10px; } /* Further reduced body padding for small mobiles */
+            .container { padding: 15px 15px; } /* Further reduced container padding */
+            h1 { font-size: 1.7em; } /* Further reduced h1 font size for readability */
+            h2 { font-size: 1.25em; } /* Further reduced h2 font size */
+            p { font-size: 0.95em; } /* Further reduced p font size */
+            li { padding: 10px 12px; } /* Adjusted li padding for tap targets and space */
+            .language-tag {
+                display: block; /* Stack language tags */
+                margin-right: 0; /* Remove right margin when stacked */
+                margin-bottom: 8px; /* Add bottom margin when stacked */
+                text-align: center; /* Center the tag text */
+            }
+            li a {
+                display: block; /* Make link take full width of li */
+                text-align: center; /* Center link text */
+            }
+            .footer {
+                font-size: 0.85em; /* Slightly smaller footer text on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>નવ તત્ત્વ માર્ગદર્શિકા</h1>
+        <p>નમસ્તે! આ વેબસાઇટ પર તમારું સ્વાગત છે. અહીં તમને જૈન ધર્મના નવ તત્ત્વો (Nav Tattva) વિશે વિસ્તૃત માહિતી મળશે, જે આત્મ-જાગૃતિ અને આધ્યાત્મિક વિકાસ માટે માર્ગદર્શક છે.</p>
+        <p>આ માર્ગદર્શિકા તમને નવ તત્ત્વોને ઊંડાણપૂર્વક સમજવામાં અને તમારા જ્ઞાનને ચકાસવામાં મદદ કરશે. નીચે આપેલ લિંક્સ દ્વારા તમે વિવિધ ભાષાઓમાં નવ તત્ત્વોનું અધ્યયન કરી શકો છો અને તે જ્ઞાનને ચકાસવા માટે ક્વિઝ પણ આપી શકો છો.</p>
+
+        <h2>ઉપલબ્ધ સંસાધનો:</h2>
+        <ul>
+            <li>
+                <span class="language-tag tag-en">English</span>
+                <a href="9-tattva-Eng.html">Jain Nav Tattva Principle (Details)</a>
+            </li>
+            <li>
+                <span class="language-tag tag-en">English</span>
+                <a href="9-tattva-Eng-Quiz.html">Jain Nav Tattva Quiz</a>
+            </li>
+            <li>
+                <span class="language-tag tag-gu">ગુજરાતી</span>
+                <a href="9-tattva-Guj.html">જૈન નવ તત્ત્વ સિદ્ધાંત (વિગતવાર)</a>
+            </li>
+            <li>
+                <span class="language-tag tag-gu">ગુજરાતી</span>
+                <a href="9-tattva-Guj-Quiz-9.html">જૈન નવ તત્ત્વ ક્વિઝ</a>
+            </li>
+            <li>
+                <span class="language-tag tag-hi">हिन्दी</span>
+                <a href="9-tattva-Hindi.html">जैन नव तत्व सिद्धांत (विस्तृत)</a>
+            </li>
+            <li>
+                <span class="language-tag tag-hi">हिन्दी</span>
+                <a href="9-tattva-Hindi-Quiz.html">जैन नव तत्त्व क्विज़</a>
+            </li>
+        </ul>
+        <div class="footer">
+            <p>આશા છે કે આ સંસાધનો તમારા જ્ઞાનવર્ધનમાં સહાયક થશે અને નવ તત્ત્વોના ગહન સિદ્ધાંતોને સમજવામાં માર્ગદર્શન આપશે.</p>
+            </div>
+    </div>
+</body>
+</html>
