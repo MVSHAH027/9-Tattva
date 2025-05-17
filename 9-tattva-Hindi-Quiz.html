@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>जैन नव तत्त्व क्विज़</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #5a2e8f;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .question h3 {
+            margin-top: 0;
+            color: #7a52aa;
+        }
+        .options label {
+            display: block;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        .options input[type="radio"],
+        .options input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .correct {
+            color: green;
+        }
+        .wrong {
+            color: red;
+        }
+        .correct-answer {
+            background-color: #d4edda; /* Light green */
+        }
+        .wrong-answer {
+            background-color: #f8d7da; /* Light red */
+        }
+        .explanation {
+            font-style: italic;
+            margin-top: 5px;
+            color: #555;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #5a2e8f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #7a52aa;
+        }
+        #quizResults {
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px solid #5a2e8f;
+            border-radius: 8px;
+            background-color: #e9e2f3;
+            text-align: center;
+        }
+        #quizResults h2 {
+            color: #333;
+        }
+        #quizResults p {
+            font-size: 1.1em;
+            margin: 8px 0;
+        }
+        #quizResults .correct {
+            color: green;
+        }
+         #quizResults .wrong {
+            color: red;
+        }
+         #quizResults .unanswered {
+            color: orange;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>जैन नव तत्त्व सिद्धांत क्विज़</h1>
+        <p>यह क्विज़ जैन नव तत्त्व सिद्धांत पर आधारित है। प्रत्येक प्रश्न का उत्तर दें और अपने ज्ञान की जाँच करें।</p>
+        <p>सभी उत्तर सबमिट करने के बाद, परिणाम सही उत्तरों के साथ अंत में प्रदर्शित किए जाएंगे।</p>
+
+
+        <h2>सही या गलत प्रश्न (२०)</h2>
+        <div id="trueFalseQuestions">
+            </div>
+
+        <h2>बहुविकल्पीय प्रश्न (एक उत्तर) (२५)</h2>
+        <div id="singleChoiceQuestions">
+            </div>
+
+        <h2>बहुविकल्पीय प्रश्न (बहुविकल्पीय उत्तर) (२५)</h2>
+        <div id="multipleChoiceQuestions">
+            </div>
+
+        <button onclick="submitQuiz()">क्विज़ सबमिट करें</button>
+
+        <div id="quizResults" style="display: none;">
+            <h2>क्विज़ परिणाम</h2>
+            <p>कुल प्रश्न: <span id="totalQuestions"></span></p>
+            <p class="correct">सही उत्तर: <span id="correctAnswers"></span></p>
+            <p class="wrong">गलत उत्तर: <span id="wrongAnswers"></span></p>
+            <p class="unanswered">अनुत्तरित प्रश्न: <span id="unansweredQuestions"></span></p>
+            <p>आपका स्कोर: <span id="yourScore"></span></p>
+        </div>
+
+    </div>
+
+    <script>
+        const trueFalseQuestions = [
+            {
+                question: "जैन दर्शन में, आत्मा के कल्याण और मोक्ष की प्राप्ति के लिए नौ तत्वों का ज्ञान आवश्यक माना जाता है।",
+                answer: true
+            },
+            {
+                question: "नौ तत्व केवल जीव पदार्थ के स्वरूप की व्याख्या करते हैं।",
+                answer: false
+            },
+            {
+                question: "जीव और अजीव ब्रह्मांड के दो मूलभूत पदार्थ हैं।",
+                answer: true
+            },
+            {
+                question: "नौ तत्वों का सटीक ज्ञान सम्यग् दर्शन प्राप्त करने के लिए आवश्यक है।",
+                answer: true
+            },
+            {
+                question: "पुण्य और पाप दोनों उपादेय तत्व हैं।",
+                answer: false
+            },
+            {
+                question: "आश्रव, संवर और निर्जरा हेय तत्व हैं।",
+                answer: false
+            },
+            {
+                question: "निश्चय नय के दृष्टिकोण से, पुण्य भी त्यागने योग्य है।",
+                answer: true
+            },
+            {
+                question: "जीव का मुख्य लक्षण उपयोग नहीं है।",
+                answer: false
+            },
+            {
+                question: "संसारी जीवों के मुख्य रूप से १० प्रकार हैं।",
+                answer: false
+            },
+            {
+                question: "सूक्ष्म एकेन्द्रिय जीव इंद्रियों से दिखाई नहीं देते हैं।",
+                answer: true
+            },
+            {
+                question: "संज्ञी जीव मन के बिना होते हैं।",
+                answer: false
+            },
+            {
+                question: "अजीव तत्व चेतना से युक्त होता है।",
+                answer: false
+            },
+            {
+                question: "पुद्गलास्तिकाय एक रूपी (भौतिक) द्रव्य है।",
+                answer: true
+            },
+            {
+                question: "काल (समय) अस्तिकाय नहीं है क्योंकि यह अप्रदेशी है।",
+                answer: true
+            },
+            {
+                question: "शुभ कर्म पाप है।",
+                answer: false
+            },
+            {
+                question: "पुण्य आत्मा का स्वाभाविक गुण है।",
+                answer: false
+            },
+            {
+                question: "१८ पापस्थानकों में हिंसा प्राथमिक है।",
+                answer: true
+            },
+            {
+                question: "आश्रव कर्म बंधन का कारण है।",
+                answer: true
+            },
+            {
+                question: "संवर आश्रव का निरोध है।",
+                answer: true
+            },
+            {
+                question: "निर्जरा का अर्थ है नए कर्मों का बंधना।",
+                answer: false
+            }
+        ];
+
+        const singleChoiceQuestions = [
+            {
+                question: "जैन दर्शन में मोक्ष प्राप्त करने के लिए कौन सा ज्ञान आवश्यक है?",
+                options: ["चार वेदों का ज्ञान", "नौ तत्वों का ज्ञान", "दस दिशाओं का ज्ञान", "पांच महाभूतों का ज्ञान"],
+                answer: 1
+            },
+            {
+                question: "ब्रह्मांड में मुख्य रूप से कितने प्रकार के पदार्थ हैं?",
+                options: ["एक", "दो", "तीन", "चार"],
+                answer: 1
+            },
+            {
+                question: "जीव का मुख्य लक्षण क्या है?",
+                options: ["रंग", "गंध", "स्पर्श", "उपयोग"],
+                answer: 3
+            },
+            {
+                question: "एक संसारी आत्मा कितनी गतियों में परिभ्रमण करती है?",
+                options: ["दो", "तीन", "चार", "पांच"],
+                answer: 2
+            },
+            {
+                question: "कौन सा तत्व हेय (त्यागने योग्य) है?",
+                options: ["जीव", "मोक्ष", "पुण्य", "पाप"],
+                answer: 3
+            },
+            {
+                question: "अजीव तत्व के मुख्य रूप से कितने भेद हैं?",
+                options: ["तीन", "चार", "पांच", "छह"],
+                answer: 2
+            },
+            {
+                question: "कौन सा अजीव द्रव्य जीव और पुद्गल को गति करने में सहायता करता है?",
+                options: ["पुद्गलास्तिकाय", "धर्मास्तिकाय", "अधर्मास्तिकाय", "आकाशास्तिकाय"],
+                answer: 1
+            },
+            {
+                question: "कौन सा अजीव द्रव्य जीव और पुद्गल को स्थिर रहने में सहायता करता है?",
+                options: ["पुद्गलास्तिकाय", "धर्मास्तिकाय", "अधर्मास्तिकाय", "आकाशास्तिकाय"],
+                answer: 2
+            },
+            {
+                question: "वस्तुओं के परिवर्तन में कौन सा द्रव्य सहायक होता है?",
+                options: ["जीव", "पुद्गल", "काल", "आकाश"],
+                answer: 2
+            },
+            {
+                question: "कौन सा तत्व शुभ कर्म है?",
+                options: ["पाप", "पुण्य", "आश्रव", "संवर"],
+                answer: 1
+            },
+            {
+                question: "कौन सा तत्व, जिसके उदय होने पर, संसार में आत्मा को दुख और प्रतिकूल परिस्थितियाँ लाता है?",
+                options: ["पुण्य", "पाप", "निर्जरा", "मोक्ष"],
+                answer: 1
+            },
+            {
+                question: "पाप के मुख्य रूप से कितने प्रकार हैं?",
+                options: ["१८", "४२", "५७", "८२"],
+                answer: 3
+            },
+            {
+                question: "१८ पापस्थानकों में से कौन सा एक शामिल नहीं है?",
+                options: ["हिंसा", "झूठ", "करुणा", "चोरी"],
+                answer: 2
+            },
+            {
+                question: "कौन सा तत्व कर्मों का आत्मा में प्रवाह है?",
+                options: ["संवर", "निर्जरा", "आश्रव", "बंध"],
+                answer: 2
+            },
+            {
+                question: "आश्रव के पांच मुख्य प्रकारों (जो कर्म बंधन के कारण हैं) में से कौन सा एक नहीं है?",
+                options: ["मिथ्यात्व", "अविरति", "तप", "कषाय"],
+                answer: 2
+            },
+            {
+                question: "कर्मों के आने वाले प्रवाह को रोकना कौन सा तत्व है?",
+                options: ["आश्रव", "बंध", "संवर", "निर्जरा"],
+                answer: 2
+            },
+            {
+                question: "कर्म के प्रवाह को रोकने के मुख्य साधनों में से कौन सा एक नहीं है?",
+                options: ["समिति", "गुप्ति", "प्रमाद", "परिशह"],
+                answer: 2
+            },
+            {
+                question: "बाईस परिषह का क्या अर्थ है?",
+                options: ["पाप के प्रकार", "कषाय के प्रकार", "सुख और दुख में समता भाव", "तप के प्रकार"],
+                answer: 2
+            },
+            {
+                question: "कौन सा तत्व आत्मा की शक्ति है जो अस्तित्व में और फलित होने वाले कर्मों को नष्ट करती है?",
+                options: ["आश्रव", "बंध", "संवर", "निर्जरा"],
+                answer: 3
+            },
+            {
+                question: "निर्जरा के मुख्य रूप से कितने प्रकार हैं?",
+                options: ["एक", "दो", "तीन", "चार"],
+                answer: 1
+            },
+            {
+                question: "तप क्या है?",
+                options: ["इच्छाओं का निरोध", "क्रोध करना", "लालची होना", "झूठ बोलना"],
+                answer: 0
+            },
+            {
+                question: "छह बाह्य तपों में से कौन सा एक नहीं है?",
+                options: ["कायोत्सर्ग", "स्वाध्याय", "ऊनओदरी", "रस त्याग"],
+                answer: 1
+            },
+            {
+                question: "छह अभ्यंतर तपों में से कौन सा एक नहीं है?",
+                options: ["प्रायश्चित्त", "विनय", "काय क्लेश", "ध्यान"],
+                answer: 2
+            },
+            {
+                question: "आत्मा के प्रदेशों और कर्म कणों का दूध और पानी की तरह एक हो जाना कौन सा तत्व है?",
+                options: ["आश्रव", "बंध", "संवर", "निर्जरा"],
+                answer: 1
+            },
+             {
+                question: "सभी कर्मों का पूर्ण विनाश कौन सा तत्व है?",
+                options: ["आश्रव", "बंध", "संवर", "मोक्ष"],
+                answer: 3
+            }
+        ];
+
+        const multipleChoiceQuestions = [
+            {
+                question: "कौन से तत्व उपादेय (ग्रहण करने योग्य) हैं?",
+                options: ["जीव", "पुण्य", "पाप", "संवर", "निर्जरा", "मोक्ष"],
+                answer: [1, 3, 4, 5] // Index of correct options
+            },
+             {
+                question: "कौन से तत्व हेय (त्यागने योग्य) हैं?",
+                options: ["जीव", "अजीव", "पुण्य", "पाप", "आश्रव", "बंध"],
+                answer: [3, 4, 5]
+            },
+             {
+                question: "जीव में १० प्राण होते हैं। इनमें से कौन से प्राण सही हैं?",
+                options: ["स्पर्श इंद्रिय", "मन बल", "धर्मास्तिकाय", "श्वासोच्छ्वास", "काल"],
+                answer: [0, 1, 3]
+            },
+            {
+                question: "जीव में ६ पर्याप्ति पूर्ण करने की शक्ति होती है। इनमें से कौन सी पर्याप्ति सही है?",
+                options: ["आहार", "शरीर", "पुद्गल", "इंद्रिय", "मोक्ष", "भाषा"],
+                answer: [0, 1, 3, 5]
+            },
+             {
+                question: "अजीव तत्व के पांच मुख्य प्रकार (द्रव्य) कौन से हैं?",
+                options: ["जीव", "पुद्गलास्तिकाय", "धर्मास्तिकाय", "काल", "मोहनीय कर्म", "आकाशास्तिकाय"],
+                answer: [1, 2, 3, 5]
+            },
+            {
+                question: "पुद्गल के मुख्य गुण क्या हैं?",
+                options: ["चेतना", "रंग", "गंध", "रस", "उपयोग", "स्पर्श"],
+                answer: [1, 2, 3, 5]
+            },
+             {
+                question: "पुण्य बंधन के मुख्य कारण क्या हैं?",
+                options: ["योग्य पात्र को दान देना", "जिन भक्ति करना", "हिंसा करना", "गुरुजनों की सेवा करना", "दया धर्म का पालन करना"],
+                answer: [0, 1, 3, 4]
+            },
+             {
+                question: "१८ पापस्थानकों में कौन से पाप शामिल हैं?",
+                options: ["क्रोध", "दान", "मान", "माया", "संयम", "लोभ"],
+                answer: [0, 2, 3, 5]
+            },
+             {
+                question: "आश्रव के पांच मुख्य प्रकार (जो कर्म बंधन के कारण हैं) कौन से हैं?",
+                options: ["सम्यग् दर्शन", "मिथ्यात्व", "अविरति", "कषाय", "ध्यान", "योग"],
+                answer: [1, 2, 3, 5]
+            },
+             {
+                question: "कर्म के प्रवाह को रोकने के मुख्य साधन (संवर) कौन से हैं?",
+                options: ["आश्रव", "पांच समिति", "तीन गुप्ति", "१८ पापस्थानक", "बाईस परिषह", "दस यति धर्म"],
+                answer: [1, 2, 4, 5]
+            },
+             {
+                question: "बारह भावनाओं में कौन सी भावनाएँ शामिल हैं?",
+                options: ["अनित्य", "आश्रव", "पुण्य", "संवर", "पाप", "निर्जरा"],
+                answer: [0, 1, 3, 5]
+            },
+            {
+                question: "निर्जरा के मुख्य दो प्रकार कौन से हैं?",
+                options: ["शुभ निर्जरा", "अकाम निर्जरा", "अशुभ निर्जरा", "सकाम निर्जरा"],
+                answer: [1, 3]
+            },
+             {
+                question: "तप के मुख्य १२ प्रकारों को कितने भागों में बांटा गया है?",
+                options: ["एक", "दो", "तीन", "चार"],
+                answer: [1]
+            },
+            {
+                question: "छह बाह्य तप कौन से हैं?",
+                options: ["प्रायश्चित्त", "अनशन", "ऊनओदरी", "विनय", "वृत्ति संक्षेप", "रस त्याग"],
+                answer: [1, 2, 4, 5]
+            },
+             {
+                question: "छह अभ्यंतर तप कौन से हैं?",
+                options: ["अनशन", "प्रायश्चित्त", "विनय", "वैयावृत्य", "काय क्लेश", "स्वाध्याय"],
+                answer: [1, 2, 3, 5]
+            },
+             {
+                question: "कर्म बंधन के मुख्य चार प्रकार कौन से हैं?",
+                options: ["प्रकृति बंध", "आश्रव बंध", "स्थिति बंध", "रस बंध", "संवर बंध", "प्रदेश बंध"],
+                answer: [0, 2, 3, 5]
+            },
+             {
+                question: "आत्मा के साथ कितने प्रकार के कर्म बंधते हैं?",
+                options: ["चार", "छह", "आठ", "दस"],
+                answer: [2]
+            },
+             {
+                question: "घाती कर्म (जो आत्मा के गुणों को बाधित करते हैं) कौन से हैं?",
+                options: ["ज्ञानावरणीय", "वेदनीय", "दर्शनावरणीय", "नाम", "मोहनीय", "अंतराय"],
+                answer: [0, 2, 4, 5]
+            },
+            {
+                question: "अघाती कर्म (जो शुभ या अशुभ परिणाम देते हैं) कौन से हैं?",
+                options: ["ज्ञानावरणीय", "वेदनीय", "दर्शनावरणीय", "नाम", "मोहनीय", "गोत्र", "आयुष्य"],
+                answer: [1, 3, 5, 6]
+            },
+            {
+                question: "मोक्ष की अवस्था में, आत्मा किन गुणों से युक्त होती है?",
+                options: ["अनंत ज्ञान", "अनंत दुख", "अनंत दर्शन", "अनंत क्रोध", "अनंत सुख", "अनंत वीर्य"],
+                answer: [0, 2, 4, 5]
+            },
+            {
+                question: "मोक्ष मार्ग के मुख्य साधन क्या हैं?",
+                options: ["मिथ्यात्व", "सम्यग् दर्शन", "अविरति", "सम्यग् ज्ञान", "कषाय", "सम्यग् चारित्र"],
+                answer: [1, 3, 5]
+            },
+             {
+                question: "संवर द्वारा नए कर्मों का बंधना क्या होता है?",
+                options: ["वे बढ़ते हैं", "वे रुक जाते हैं", "वे घटते हैं", "कोई बदलाव नहीं होता"],
+                answer: [1]
+            },
+            {
+                question: "तप और संयम द्वारा क्या प्राप्त किया जा सकता है?",
+                options: ["नए कर्म बांधे जा सकते हैं", "पूर्व बंधे कर्मों की निर्जरा की जा सकती है", "मिथ्यात्व बढ़ाया जा सकता है", "आश्रव कम किया जा सकता है"],
+                answer: [1, 3]
+            },
+            {
+                question: "जब आत्मा पूरी तरह से कर्मों से मुक्त हो जाती है, तो वह कौन सी अवस्था प्राप्त करती है?",
+                options: ["बंध अवस्था", "आश्रव अवस्था", "निर्जरा अवस्था", "मोक्ष अवस्था"],
+                answer: [3]
+            },
+             {
+                question: "जैन नव तत्त्व सिद्धांत क्या दर्शाता है?",
+                options: ["केवल एक धार्मिक सिद्धांत", "जीवन जीने की कला", "आत्म विकास का मार्ग", "कर्म बंधन का मार्ग"],
+                answer: [1, 2]
+            }
+        ];
+
+
+        function loadQuestions() {
+            const trueFalseDiv = document.getElementById('trueFalseQuestions');
+            trueFalseQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('question');
+                questionDiv.innerHTML = `
+                    <h3>प्रश्न ${index + 1}: ${q.question}</h3>
+                    <div class="options">
+                        <label>
+                            <input type="radio" name="tfq${index}" value="true"> सही
+                        </label>
+                        <label>
+                            <input type="radio" name="tfq${index}" value="false"> गलत
+                        </label>
+                    </div>
+                    <div class="feedback"></div>
+                `;
+                trueFalseDiv.appendChild(questionDiv);
+            });
+
+            const singleChoiceDiv = document.getElementById('singleChoiceQuestions');
+            singleChoiceQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('question');
+                let optionsHtml = '';
+                q.options.forEach((option, optIndex) => {
+                    optionsHtml += `
+                        <label>
+                            <input type="radio" name="scq${index}" value="${optIndex}"> ${option}
+                        </label>
+                    `;
+                });
+                questionDiv.innerHTML = `
+                    <h3>प्रश्न ${index + 1} (एक उत्तर): ${q.question}</h3>
+                    <div class="options">${optionsHtml}</div>
+                    <div class="feedback"></div>
+                `;
+                singleChoiceDiv.appendChild(questionDiv);
+            });
+
+            const multipleChoiceDiv = document.getElementById('multipleChoiceQuestions');
+            multipleChoiceQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('question');
+                let optionsHtml = '';
+                q.options.forEach((option, optIndex) => {
+                    optionsHtml += `
+                        <label>
+                            <input type="checkbox" name="mcq${index}" value="${optIndex}"> ${option}
+                        </label>
+                    `;
+                });
+                questionDiv.innerHTML = `
+                    <h3>प्रश्न ${index + 1} (बहुविकल्पीय उत्तर): ${q.question}</h3>
+                    <div class="options">${optionsHtml}</div>
+                    <div class="feedback"></div>
+                `;
+                multipleChoiceDiv.appendChild(questionDiv);
+            });
+        }
+
+        function submitQuiz() {
+            let correctCount = 0;
+            let wrongCount = 0;
+            let unansweredCount = 0;
+            const totalQuestions = trueFalseQuestions.length + singleChoiceQuestions.length + multipleChoiceQuestions.length;
+
+            // Check True/False questions
+            trueFalseQuestions.forEach((q, index) => {
+                const selectedAnswer = document.querySelector(`input[name="tfq${index}"]:checked`);
+                const feedbackDiv = document.querySelectorAll('#trueFalseQuestions .question')[index].querySelector('.feedback');
+                const optionsDiv = document.querySelectorAll('#trueFalseQuestions .question')[index].querySelector('.options');
+
+                optionsDiv.querySelectorAll('label').forEach(label => {
+                    label.classList.remove('correct-answer', 'wrong-answer');
+                });
+
+                if (selectedAnswer) {
+                    const isCorrect = (selectedAnswer.value === 'true' && q.answer === true) || (selectedAnswer.value === 'false' && q.answer === false);
+                    if (isCorrect) {
+                        feedbackDiv.textContent = "उत्तर सही है!";
+                        feedbackDiv.classList.remove('wrong');
+                        feedbackDiv.classList.add('correct');
+                        selectedAnswer.parentElement.classList.add('correct-answer');
+                        correctCount++;
+                    } else {
+                        feedbackDiv.textContent = `उत्तर गलत है। सही उत्तर: ${q.answer ? 'सही' : 'गलत'}`;
+                        feedbackDiv.classList.remove('correct');
+                        feedbackDiv.classList.add('wrong');
+                         optionsDiv.querySelectorAll('input').forEach(input => {
+                            if ((input.value === 'true' && q.answer === true) || (input.value === 'false' && q.answer === false)) {
+                                input.parentElement.classList.add('correct-answer');
+                            } else if (input.checked) {
+                                 input.parentElement.classList.add('wrong-answer');
+                                 wrongCount++;
+                            }
+                        });
+                    }
+                } else {
+                    feedbackDiv.textContent = "आपने उत्तर नहीं दिया है।";
+                    feedbackDiv.classList.remove('correct', 'wrong');
+                    unansweredCount++;
+                }
+            });
+
+            // Check Single-Choice questions
+            singleChoiceQuestions.forEach((q, index) => {
+                const selectedAnswer = document.querySelector(`input[name="scq${index}"]:checked`);
+                const feedbackDiv = document.querySelectorAll('#singleChoiceQuestions .question')[index].querySelector('.feedback');
+                 const optionsDiv = document.querySelectorAll('#singleChoiceQuestions .question')[index].querySelector('.options');
+
+                optionsDiv.querySelectorAll('label').forEach(label => {
+                    label.classList.remove('correct-answer', 'wrong-answer');
+                });
+
+                if (selectedAnswer) {
+                    const isCorrect = parseInt(selectedAnswer.value) === q.answer;
+                    if (isCorrect) {
+                        feedbackDiv.textContent = "उत्तर सही है!";
+                        feedbackDiv.classList.remove('wrong');
+                        feedbackDiv.classList.add('correct');
+                         selectedAnswer.parentElement.classList.add('correct-answer');
+                         correctCount++;
+                    } else {
+                        feedbackDiv.textContent = `उत्तर गलत है। सही उत्तर: ${q.options[q.answer]}`;
+                        feedbackDiv.classList.remove('correct');
+                        feedbackDiv.classList.add('wrong');
+
+                        optionsDiv.querySelectorAll('input').forEach(input => {
+                            if (parseInt(input.value) === q.answer) {
+                                input.parentElement.classList.add('correct-answer');
+                            } else if (input.checked) {
+                                 input.parentElement.classList.add('wrong-answer');
+                                 wrongCount++;
+                            }
+                        });
+                    }
+                } else {
+                    feedbackDiv.textContent = "आपने उत्तर नहीं दिया है।";
+                     feedbackDiv.classList.remove('correct', 'wrong');
+                     unansweredCount++;
+                }
+            });
+
+             // Check Multiple-Choice questions
+            multipleChoiceQuestions.forEach((q, index) => {
+                const selectedAnswers = Array.from(document.querySelectorAll(`input[name="mcq${index}"]:checked`)).map(input => parseInt(input.value));
+                const feedbackDiv = document.querySelectorAll('#multipleChoiceQuestions .question')[index].querySelector('.feedback');
+                 const optionsDiv = document.querySelectorAll('#multipleChoiceQuestions .question')[index].querySelector('.options');
+
+                optionsDiv.querySelectorAll('label').forEach(label => {
+                    label.classList.remove('correct-answer', 'wrong-answer');
+                });
+
+                if (selectedAnswers.length > 0) {
+                    // Check if all selected answers are correct AND no correct answers were missed
+                    const isCorrect = selectedAnswers.length === q.answer.length &&
+                                      selectedAnswers.every(val => q.answer.includes(val));
+
+                    if (isCorrect) {
+                        feedbackDiv.textContent = "उत्तर सही है!";
+                        feedbackDiv.classList.remove('wrong');
+                        feedbackDiv.classList.add('correct');
+                         selectedAnswers.forEach(ansIndex => {
+                             optionsDiv.querySelector(`input[value="${ansIndex}"]`).parentElement.classList.add('correct-answer');
+                         });
+                         correctCount++;
+                    } else {
+                        const correctOptionsText = q.answer.map(ansIndex => q.options[ansIndex]).join(', ');
+                        feedbackDiv.textContent = `उत्तर गलत है। सही उत्तर: ${correctOptionsText}`;
+                        feedbackDiv.classList.remove('correct');
+                        feedbackDiv.classList.add('wrong');
+
+                         optionsDiv.querySelectorAll('input').forEach(input => {
+                             const val = parseInt(input.value);
+                            if (q.answer.includes(val)) {
+                                input.parentElement.classList.add('correct-answer');
+                            } else if (input.checked) {
+                                 input.parentElement.classList.add('wrong-answer');
+                            }
+                        });
+                        wrongCount++;
+                    }
+                } else {
+                    feedbackDiv.textContent = "आपने उत्तर नहीं दिया है।";
+                     feedbackDiv.classList.remove('correct', 'wrong');
+                     unansweredCount++;
+                }
+            });
+
+            // Display results
+            document.getElementById('totalQuestions').textContent = totalQuestions;
+            document.getElementById('correctAnswers').textContent = correctCount;
+            document.getElementById('wrongAnswers').textContent = wrongCount;
+            document.getElementById('unansweredQuestions').textContent = unansweredCount;
+            document.getElementById('yourScore').textContent = `${correctCount} / ${totalQuestions}`; // Simple score based on correct answers
+
+            document.getElementById('quizResults').style.display = 'block'; // Show the results section
+        }
+
+        // Load questions when the page loads
+        window.onload = loadQuestions;
+    </script>
+</body>
+</html>

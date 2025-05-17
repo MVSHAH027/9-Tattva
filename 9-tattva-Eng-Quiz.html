@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jain Nav Tattva Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #5a2e8f;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .question h3 {
+            margin-top: 0;
+            color: #7a52aa;
+        }
+        .options label {
+            display: block;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        .options input[type="radio"],
+        .options input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .correct {
+            color: green;
+        }
+        .wrong {
+            color: red;
+        }
+        .correct-answer {
+            background-color: #d4edda; /* Light green */
+        }
+        .wrong-answer {
+            background-color: #f8d7da; /* Light red */
+        }
+        .explanation {
+            font-style: italic;
+            margin-top: 5px;
+            color: #555;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #5a2e8f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #7a52aa;
+        }
+        #quizResults {
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px solid #5a2e8f;
+            border-radius: 8px;
+            background-color: #e9e2f3;
+            text-align: center;
+        }
+        #quizResults h2 {
+            color: #333;
+        }
+        #quizResults p {
+            font-size: 1.1em;
+            margin: 8px 0;
+        }
+        #quizResults .correct {
+            color: green;
+        }
+         #quizResults .wrong {
+            color: red;
+        }
+         #quizResults .unanswered {
+            color: orange;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Jain Nav Tattva Principle Quiz</h1>
+        <p>This quiz is based on the Jain Nav Tattva Principle. Answer each question and test your knowledge.</p>
+        <p>After submitting all answers, results will be displayed at the end with correct answers.</p>
+
+
+        <h2>True or False Questions (20)</h2>
+        <div id="trueFalseQuestions">
+            </div>
+
+        <h2>Multiple Choice Questions (Single Answer) (25)</h2>
+        <div id="singleChoiceQuestions">
+            </div>
+
+        <h2>Multiple Choice Questions (Multiple Answers) (25)</h2>
+        <div id="multipleChoiceQuestions">
+            </div>
+
+        <button onclick="submitQuiz()">Submit Quiz</button>
+
+        <div id="quizResults" style="display: none;">
+            <h2>Quiz Results</h2>
+            <p>Total Questions: <span id="totalQuestions"></span></p>
+            <p class="correct">Correct Answers: <span id="correctAnswers"></span></p>
+            <p class="wrong">Wrong Answers: <span id="wrongAnswers"></span></p>
+            <p class="unanswered">Unanswered Questions: <span id="unansweredQuestions"></span></p>
+            <p>Your Score: <span id="yourScore"></span></p>
+        </div>
+
+    </div>
+
+    <script>
+        const trueFalseQuestions = [
+            {
+                question: "In Jain philosophy, knowledge of the nine Tattvas is considered essential for the welfare of the soul and attainment of Moksha.",
+                answer: true
+            },
+            {
+                question: "The nine Tattvas only explain the nature of the Jiva substance.",
+                answer: false
+            },
+            {
+                question: "Jiva and Ajiva are the two fundamental substances of the universe.",
+                answer: true
+            },
+            {
+                question: "Accurate knowledge of the nine Tattvas is essential for attaining Samyag Darshan.",
+                answer: true
+            },
+            {
+                question: "Both Punya and Papa are Upadeya Tattvas.",
+                answer: false
+            },
+            {
+                question: "Ashrava, Samvara, and Nirjara are Heya Tattvas.",
+                answer: false
+            },
+            {
+                question: "From the perspective of Nishchay Naya, Punya is also worth abandoning.",
+                answer: true
+            },
+            {
+                question: "The main characteristic of Jiva is not Upayoga.",
+                answer: false
+            },
+            {
+                question: "There are mainly 10 types of worldly Jivas.",
+                answer: false
+            },
+            {
+                question: "Sookshma Ekendriya Jivas are not visible to the senses.",
+                answer: true
+            },
+            {
+                question: "Sanjni Jivas are without mind.",
+                answer: false
+            },
+            {
+                question: "Ajiva Tattva is characterized by consciousness.",
+                answer: false
+            },
+            {
+                question: "Pudgalastikaya is a form (Rupi) substance.",
+                answer: true
+            },
+            {
+                question: "Kala (Time) is not Astikaya because it is Apradeshi.",
+                answer: true
+            },
+            {
+                question: "Auspicious karma is Papa.",
+                answer: false
+            },
+            {
+                question: "Punya is the inherent nature of the soul.",
+                answer: false
+            },
+            {
+                question: "Among the 18 Papa-sthanakas, Himsa is primary.",
+                answer: true
+            },
+            {
+                question: "Ashrava is the cause of karma bondage.",
+                answer: true
+            },
+            {
+                question: "Samvara is the cessation of Ashrava.",
+                answer: true
+            },
+            {
+                question: "Nirjara means new karmas are bound.",
+                answer: false
+            }
+        ];
+
+        const singleChoiceQuestions = [
+            {
+                question: "What knowledge is essential for attaining Moksha in Jain philosophy?",
+                options: ["Knowledge of the four Vedas", "Knowledge of the nine Tattvas", "Knowledge of the ten directions", "Knowledge of the five great elements"],
+                answer: 1
+            },
+            {
+                question: "How many main types of substances are there in the universe?",
+                options: ["One", "Two", "Three", "Four"],
+                answer: 1
+            },
+            {
+                question: "What is the main characteristic of Jiva?",
+                options: ["Color", "Smell", "Touch", "Upayoga"],
+                answer: 3
+            },
+            {
+                question: "In how many states (gatis) does a worldly soul transmigrate?",
+                options: ["Two", "Three", "Four", "Five"],
+                answer: 2
+            },
+            {
+                question: "Which Tattva is Heya (worth abandoning)?",
+                options: ["Jiva", "Moksha", "Punya", "Papa"],
+                answer: 3
+            },
+            {
+                question: "How many main types of Ajiva Tattva are there?",
+                options: ["Three", "Four", "Five", "Six"],
+                answer: 2
+            },
+            {
+                question: "Which Ajiva substance helps Jiva and Pudgala in motion?",
+                options: ["Pudgalastikaya", "Dharmastikaya", "Adharmastikaya", "Akashastikaya"],
+                answer: 1
+            },
+            {
+                question: "Which Ajiva substance helps Jiva and Pudgala to remain stable?",
+                options: ["Pudgalastikaya", "Dharmastikaya", "Adharmastikaya", "Akashastikaya"],
+                answer: 2
+            },
+            {
+                question: "Which substance helps in the transformation of things?",
+                options: ["Jiva", "Pudgala", "Kala", "Akasha"],
+                answer: 2
+            },
+            {
+                question: "Which Tattva is auspicious karma?",
+                options: ["Papa", "Punya", "Ashrava", "Samvara"],
+                answer: 1
+            },
+            {
+                question: "Which Tattva, upon its उदय (udaya - fruition), brings suffering and unfavorable circumstances to the soul in the world?",
+                options: ["Punya", "Papa", "Nirjara", "Moksha"],
+                answer: 1
+            },
+            {
+                question: "How many main types of Papa are there?",
+                options: ["18", "42", "57", "82"],
+                answer: 3
+            },
+            {
+                question: "Which one is NOT included in the 18 Papa-sthanakas?",
+                options: ["Himsa", "Falsehood", "Compassion", "Theft"],
+                answer: 2
+            },
+            {
+                question: "Which Tattva is the inflow of karmas into the soul?",
+                options: ["Samvara", "Nirjara", "Ashrava", "Bandha"],
+                answer: 2
+            },
+            {
+                question: "Which one is NOT among the five main types of Ashrava (which are causes of karma bondage)?",
+                options: ["Mithyatva", "Avirati", "Tapa", "Kashaya"],
+                answer: 2
+            },
+            {
+                question: "Which Tattva is the stopping of the incoming flow of karmas?",
+                options: ["Ashrava", "Bandha", "Samvara", "Nirjara"],
+                answer: 2
+            },
+            {
+                question: "Which one is NOT a main means to stop the flow of karma?",
+                options: ["Samiti", "Gupti", "Pramada", "Parishaha"],
+                answer: 2
+            },
+            {
+                question: "What does the twenty-two Parishahas mean?",
+                options: ["Types of Papa", "Types of Kashaya", "Equanimity in happiness and suffering", "Types of Tapa"],
+                answer: 2
+            },
+            {
+                question: "Which Tattva is the soul's power to destroy karmas that are in existence and coming into fruition?",
+                options: ["Ashrava", "Bandha", "Samvara", "Nirjara"],
+                answer: 3
+            },
+            {
+                question: "How many main types of Nirjara are there?",
+                options: ["One", "Two", "Three", "Four"],
+                answer: 1
+            },
+            {
+                question: "What is Tapa?",
+                options: ["Cessation of desire", "Getting angry", "Being greedy", "Speaking falsely"],
+                answer: 0
+            },
+            {
+                question: "Which one is NOT among the six external types of Tapa?",
+                options: ["Kayotsarga", "Swadhyaya", "Unodari", "Rasa Tyaga"],
+                answer: 1
+            },
+            {
+                question: "Which one is NOT among the six internal types of Tapa?",
+                options: ["Prayshchitta", "Vinaya", "Kay Klesh", "Dhyana"],
+                answer: 2
+            },
+            {
+                question: "Which Tattva is the mixing of the soul's regions and karma particles like milk and water?",
+                options: ["Ashrava", "Bandha", "Samvara", "Nirjara"],
+                answer: 1
+            },
+             {
+                question: "Which Tattva is the complete destruction of all karmas?",
+                options: ["Ashrava", "Bandha", "Samvara", "Moksha"],
+                answer: 3
+            }
+        ];
+
+        const multipleChoiceQuestions = [
+            {
+                question: "Which Tattvas are Upadeya (worth adopting)?",
+                options: ["Jiva", "Punya", "Papa", "Samvara", "Nirjara", "Moksha"],
+                answer: [1, 3, 4, 5] // Index of correct options
+            },
+             {
+                question: "Which Tattvas are Heya (worth abandoning)?",
+                options: ["Jiva", "Ajiva", "Punya", "Papa", "Ashrava", "Bandha"],
+                answer: [3, 4, 5]
+            },
+             {
+                question: "Jiva possesses 10 Pranas. Which of these Pranas are correct?",
+                options: ["Sparsha Indriya", "Mana Bala", "Dharmastikaya", "Shvasochchvasa", "Kala"],
+                answer: [0, 1, 3]
+            },
+            {
+                question: "Jiva has the power to complete 6 Paryaptis. Which of these Paryaptis are correct?",
+                options: ["Ahara", "Sharira", "Pudgala", "Indriya", "Moksha", "Bhasha"],
+                answer: [0, 1, 3, 5]
+            },
+             {
+                question: "What are the five main types (substances) of Ajiva Tattva?",
+                options: ["Jiva", "Pudgalastikaya", "Dharmastikaya", "Kala", "Mohaniya Karma", "Akashastikaya"],
+                answer: [1, 2, 3, 5]
+            },
+            {
+                question: "What are the main qualities of Pudgala?",
+                options: ["Consciousness", "Color", "Smell", "Taste", "Upayoga", "Touch"],
+                answer: [1, 2, 3, 5]
+            },
+             {
+                question: "What are the main causes of Punya bondage?",
+                options: ["Giving charity to a worthy recipient", "Devotion to Jina", "Committing violence", "Serving Gurujans", "Practicing the religion of compassion"],
+                answer: [0, 1, 3, 4]
+            },
+             {
+                question: "Which Papa are included in the 18 Papa-sthanakas?",
+                options: ["Anger", "Charity", "Pride", "Deceit", "Self-control", "Greed"],
+                answer: [0, 2, 3, 5]
+            },
+             {
+                question: "What are the five main types of Ashrava (which are causes of karma bondage)?",
+                options: ["Samyag Darshan", "Mithyatva", "Avirati", "Kashaya", "Meditation", "Yoga"],
+                answer: [1, 2, 3, 5]
+            },
+             {
+                question: "What are the main means to stop the flow of karma (Samvara)?",
+                options: ["Ashrava", "Five Samitis", "Three Guptis", "18 Papa-sthanakas", "Twenty-two Parishahas", "Ten Yati Dharmas"],
+                answer: [1, 2, 4, 5]
+            },
+             {
+                question: "Which Bhavanas are included in the twelve Bhavanas?",
+                options: ["Anitya", "Ashrava", "Punya", "Samvara", "Papa", "Nirjara"],
+                answer: [0, 1, 3, 5]
+            },
+            {
+                question: "What are the two main types of Nirjara?",
+                options: ["Auspicious Nirjara", "Akama Nirjara", "Inauspicious Nirjara", "Sakama Nirjara"],
+                answer: [1, 3]
+            },
+             {
+                question: "Into how many parts are the 12 main types of Tapa divided?",
+                options: ["One", "Two", "Three", "Four"],
+                answer: [1]
+            },
+            {
+                question: "What are the six external types of Tapa?",
+                options: ["Prayshchitta", "Anashana", "Unodari", "Vinaya", "Vritti Samkshepa", "Rasa Tyaga"],
+                answer: [1, 2, 4, 5]
+            },
+             {
+                question: "What are the six internal types of Tapa?",
+                options: ["Anashana", "Prayshchitta", "Vinaya", "Vaiyavritya", "Kay Klesh", "Swadhyaya"],
+                answer: [1, 2, 3, 5]
+            },
+             {
+                question: "What are the four main types of Karma Bandha?",
+                options: ["Prakriti Bandha", "Ashrava Bandha", "Sthiti Bandha", "Rasa Bandha", "Samvara Bandha", "Pradesha Bandha"],
+                answer: [0, 2, 3, 5]
+            },
+             {
+                question: "How many types of karmas are bound with the soul?",
+                options: ["Four", "Six", "Eight", "Ten"],
+                answer: [2]
+            },
+             {
+                question: "Which are the Ghati Karmas (those that obstruct the soul's qualities)?",
+                options: ["Jnanavaraniya", "Vedaniya", "Darshanavaraniya", "Nama", "Mohaniya", "Antaraya"],
+                answer: [0, 2, 4, 5]
+            },
+            {
+                question: "Which are the Aghati Karmas (those that give auspicious or inauspicious results)?",
+                options: ["Jnanavaraniya", "Vedaniya", "Darshanavaraniya", "Nama", "Mohaniya", "Gotra", "Ayushya"],
+                answer: [1, 3, 5, 6]
+            },
+            {
+                question: "In the state of Moksha, the soul is endowed with which qualities?",
+                options: ["Infinite Knowledge", "Infinite Suffering", "Infinite Perception", "Infinite Anger", "Infinite Bliss", "Infinite Energy"],
+                answer: [0, 2, 4, 5]
+            },
+            {
+                question: "What are the main means to the path of Moksha?",
+                options: ["Mithyatva", "Samyag Darshan", "Avirati", "Samyag Jnana", "Kashaya", "Samyag Charitra"],
+                answer: [1, 3, 5]
+            },
+             {
+                question: "What happens to new karmas being bound through Samvara?",
+                options: ["They increase", "They stop", "They decrease", "There is no change"],
+                answer: [1]
+            },
+            {
+                question: "What can be achieved through Tapa and Samyama?",
+                options: ["New karmas can be bound", "Past bound karmas can be shed (Nirjara)", "Mithyatva can be increased", "Ashrava can be reduced"],
+                answer: [1, 3]
+            },
+            {
+                question: "When the soul is completely free from karmas, which state does it attain?",
+                options: ["Bandha state", "Ashrava state", "Nirjara state", "Moksha state"],
+                answer: [3]
+            },
+             {
+                question: "What does the Jain Nav Tattva Principle demonstrate?",
+                options: ["Only a religious principle", "The art of living", "The path of spiritual development", "The path of karma bondage"],
+                answer: [1, 2]
+            }
+        ];
+
+
+        function loadQuestions() {
+            const trueFalseDiv = document.getElementById('trueFalseQuestions');
+            trueFalseQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('question');
+                questionDiv.innerHTML = `
+                    <h3>Question ${index + 1}: ${q.question}</h3>
+                    <div class="options">
+                        <label>
+                            <input type="radio" name="tfq${index}" value="true"> True
+                        </label>
+                        <label>
+                            <input type="radio" name="tfq${index}" value="false"> False
+                        </label>
+                    </div>
+                    <div class="feedback"></div>
+                `;
+                trueFalseDiv.appendChild(questionDiv);
+            });
+
+            const singleChoiceDiv = document.getElementById('singleChoiceQuestions');
+            singleChoiceQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('question');
+                let optionsHtml = '';
+                q.options.forEach((option, optIndex) => {
+                    optionsHtml += `
+                        <label>
+                            <input type="radio" name="scq${index}" value="${optIndex}"> ${option}
+                        </label>
+                    `;
+                });
+                questionDiv.innerHTML = `
+                    <h3>Question ${index + 1} (Single Answer): ${q.question}</h3>
+                    <div class="options">${optionsHtml}</div>
+                    <div class="feedback"></div>
+                `;
+                singleChoiceDiv.appendChild(questionDiv);
+            });
+
+            const multipleChoiceDiv = document.getElementById('multipleChoiceQuestions');
+            multipleChoiceQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('question');
+                let optionsHtml = '';
+                q.options.forEach((option, optIndex) => {
+                    optionsHtml += `
+                        <label>
+                            <input type="checkbox" name="mcq${index}" value="${optIndex}"> ${option}
+                        </label>
+                    `;
+                });
+                questionDiv.innerHTML = `
+                    <h3>Question ${index + 1} (Multiple Answers): ${q.question}</h3>
+                    <div class="options">${optionsHtml}</div>
+                    <div class="feedback"></div>
+                `;
+                multipleChoiceDiv.appendChild(questionDiv);
+            });
+        }
+
+        function submitQuiz() {
+            let correctCount = 0;
+            let wrongCount = 0;
+            let unansweredCount = 0;
+            const totalQuestions = trueFalseQuestions.length + singleChoiceQuestions.length + multipleChoiceQuestions.length;
+
+            // Check True/False questions
+            trueFalseQuestions.forEach((q, index) => {
+                const selectedAnswer = document.querySelector(`input[name="tfq${index}"]:checked`);
+                const feedbackDiv = document.querySelectorAll('#trueFalseQuestions .question')[index].querySelector('.feedback');
+                const optionsDiv = document.querySelectorAll('#trueFalseQuestions .question')[index].querySelector('.options');
+
+                optionsDiv.querySelectorAll('label').forEach(label => {
+                    label.classList.remove('correct-answer', 'wrong-answer');
+                });
+
+                if (selectedAnswer) {
+                    const isCorrect = (selectedAnswer.value === 'true' && q.answer === true) || (selectedAnswer.value === 'false' && q.answer === false);
+                    if (isCorrect) {
+                        feedbackDiv.textContent = "Answer is Correct!";
+                        feedbackDiv.classList.remove('wrong');
+                        feedbackDiv.classList.add('correct');
+                        selectedAnswer.parentElement.classList.add('correct-answer');
+                        correctCount++;
+                    } else {
+                        feedbackDiv.textContent = `Answer is Wrong. Correct answer: ${q.answer ? 'True' : 'False'}`;
+                        feedbackDiv.classList.remove('correct');
+                        feedbackDiv.classList.add('wrong');
+                         optionsDiv.querySelectorAll('input').forEach(input => {
+                            if ((input.value === 'true' && q.answer === true) || (input.value === 'false' && q.answer === false)) {
+                                input.parentElement.classList.add('correct-answer');
+                            } else if (input.checked) {
+                                 input.parentElement.classList.add('wrong-answer');
+                                 wrongCount++;
+                            }
+                        });
+                    }
+                } else {
+                    feedbackDiv.textContent = "You did not answer.";
+                    feedbackDiv.classList.remove('correct', 'wrong');
+                    unansweredCount++;
+                }
+            });
+
+            // Check Single-Choice questions
+            singleChoiceQuestions.forEach((q, index) => {
+                const selectedAnswer = document.querySelector(`input[name="scq${index}"]:checked`);
+                const feedbackDiv = document.querySelectorAll('#singleChoiceQuestions .question')[index].querySelector('.feedback');
+                 const optionsDiv = document.querySelectorAll('#singleChoiceQuestions .question')[index].querySelector('.options');
+
+                optionsDiv.querySelectorAll('label').forEach(label => {
+                    label.classList.remove('correct-answer', 'wrong-answer');
+                });
+
+                if (selectedAnswer) {
+                    const isCorrect = parseInt(selectedAnswer.value) === q.answer;
+                    if (isCorrect) {
+                        feedbackDiv.textContent = "Answer is Correct!";
+                        feedbackDiv.classList.remove('wrong');
+                        feedbackDiv.classList.add('correct');
+                         selectedAnswer.parentElement.classList.add('correct-answer');
+                         correctCount++;
+                    } else {
+                        feedbackDiv.textContent = `Answer is Wrong. Correct answer: ${q.options[q.answer]}`;
+                        feedbackDiv.classList.remove('correct');
+                        feedbackDiv.classList.add('wrong');
+
+                        optionsDiv.querySelectorAll('input').forEach(input => {
+                            if (parseInt(input.value) === q.answer) {
+                                input.parentElement.classList.add('correct-answer');
+                            } else if (input.checked) {
+                                 input.parentElement.classList.add('wrong-answer');
+                                 wrongCount++;
+                            }
+                        });
+                    }
+                } else {
+                    feedbackDiv.textContent = "You did not answer.";
+                     feedbackDiv.classList.remove('correct', 'wrong');
+                     unansweredCount++;
+                }
+            });
+
+             // Check Multiple-Choice questions
+            multipleChoiceQuestions.forEach((q, index) => {
+                const selectedAnswers = Array.from(document.querySelectorAll(`input[name="mcq${index}"]:checked`)).map(input => parseInt(input.value));
+                const feedbackDiv = document.querySelectorAll('#multipleChoiceQuestions .question')[index].querySelector('.feedback');
+                 const optionsDiv = document.querySelectorAll('#multipleChoiceQuestions .question')[index].querySelector('.options');
+
+                optionsDiv.querySelectorAll('label').forEach(label => {
+                    label.classList.remove('correct-answer', 'wrong-answer');
+                });
+
+                if (selectedAnswers.length > 0) {
+                    // Check if all selected answers are correct AND no correct answers were missed
+                    const isCorrect = selectedAnswers.length === q.answer.length &&
+                                      selectedAnswers.every(val => q.answer.includes(val));
+
+                    if (isCorrect) {
+                        feedbackDiv.textContent = "Answer is Correct!";
+                        feedbackDiv.classList.remove('wrong');
+                        feedbackDiv.classList.add('correct');
+                         selectedAnswers.forEach(ansIndex => {
+                             optionsDiv.querySelector(`input[value="${ansIndex}"]`).parentElement.classList.add('correct-answer');
+                         });
+                         correctCount++;
+                    } else {
+                        const correctOptionsText = q.answer.map(ansIndex => q.options[ansIndex]).join(', ');
+                        feedbackDiv.textContent = `Answer is Wrong. Correct answers: ${correctOptionsText}`;
+                        feedbackDiv.classList.remove('correct');
+                        feedbackDiv.classList.add('wrong');
+
+                         optionsDiv.querySelectorAll('input').forEach(input => {
+                             const val = parseInt(input.value);
+                            if (q.answer.includes(val)) {
+                                input.parentElement.classList.add('correct-answer');
+                            } else if (input.checked) {
+                                 input.parentElement.classList.add('wrong-answer');
+                            }
+                        });
+                        wrongCount++;
+                    }
+                } else {
+                    feedbackDiv.textContent = "You did not answer.";
+                     feedbackDiv.classList.remove('correct', 'wrong');
+                     unansweredCount++;
+                }
+            });
+
+            // Display results
+            document.getElementById('totalQuestions').textContent = totalQuestions;
+            document.getElementById('correctAnswers').textContent = correctCount;
+            document.getElementById('wrongAnswers').textContent = wrongCount;
+            document.getElementById('unansweredQuestions').textContent = unansweredCount;
+            document.getElementById('yourScore').textContent = `${correctCount} / ${totalQuestions}`; // Simple score based on correct answers
+
+            document.getElementById('quizResults').style.display = 'block'; // Show the results section
+        }
+
+        // Load questions when the page loads
+        window.onload = loadQuestions;
+    </script>
+</body>
+</html>
